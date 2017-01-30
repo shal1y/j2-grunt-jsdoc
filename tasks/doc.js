@@ -20,7 +20,7 @@ module.exports  = function(grunt) {
 
 	grunt.registerMultiTask('doc', 'Generates jsdoc documentation and saves it to a json file', function() {
 
-		var gtr     = require('../node_modules/grunt-text-replace/lib/grunt-text-replace');
+		var gtr     = require(path.resolve('node_modules/grunt-text-replace/lib/grunt-text-replace'));
 		var spawn   = require('child_process').spawn;
 
 		var done            = this.async();
