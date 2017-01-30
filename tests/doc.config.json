@@ -1,0 +1,18 @@
+{
+	"source": {
+		"include"           : ["tests/sample.js"],
+		"includePattern"    : ".+\\.js$"
+	},
+	"opts" : {
+		"explain"   : true,
+		"recurse"   : true
+	},
+	"templates" : {
+		"default"   : {
+			"outputSourceFiles" : false
+		}
+	},
+	"tags"  : {
+		"allowUnknownTags"  : true
+	}
+}

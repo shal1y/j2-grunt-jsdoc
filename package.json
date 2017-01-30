@@ -1,0 +1,25 @@
+{
+	"name"           : "j2-grunt-jsdoc",
+	"version"        : "1.0.0",
+	"description"    : "Grunt task to generate documentation for J2Inn projects",
+	"main"           : "Gruntfile.js",
+	"scripts"        : {
+		"test": "grunt"
+	},
+	"keywords"       : [
+		"j2inn",
+		"documentation",
+		"jsdoc"
+	],
+	"author"         : "SS Virk",
+	"license"        : "ISC",
+	"repository"     : {
+		"type": "git",
+		"url" : "https://github.com/shal1y/j2-grunt-jsdoc.git"
+	},
+	"devDependencies": {
+		"grunt"             : "^1.0.1",
+		"grunt-text-replace": "^0.4.0",
+		"jsdoc"             : "^3.4.3"
+	}
+}
