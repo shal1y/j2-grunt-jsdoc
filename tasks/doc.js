@@ -9,6 +9,7 @@
  */
 
 var path    = require('path');
+var chalk   = require('chalk');
 
 module.exports  = function(grunt) {
 	'use strict'
@@ -24,6 +25,7 @@ module.exports  = function(grunt) {
 		var spawn   = require('child_process').spawn;
 
 		var done            = this.async();
+		var projName        = this.data.options.projectName ? this.data.options.projectName : 'pod';
 		var optsFilePath    = this.data.options.configPath;
 		var destFilePath    = !this.data.options.destination || this.data.options.destination == '.' ? '' : this.data.options.destination;
 		var jsdoc           = (function(g) {
@@ -89,23 +91,24 @@ module.exports  = function(grunt) {
 
 		p.on('close', function(code) {
 			if (code === 0) {
-				var dirPath = path.resolve(destFilePath);//.replace('/doc.json', '');
+				var dirPath = path.resolve(destFilePath);
 
 				if (!grunt.file.exists(dirPath))
 					grunt.file.mkdir(dirPath);
 
-				grunt.file.write(dirPath+ '/doc.json', Buffer.concat(buffer, bufferLength));
+				grunt.file.write(dirPath+path.sep+ 'doc.json', Buffer.concat(buffer, bufferLength));
 
 				gtr.replace({
-					src             : [__dirname+ '/' +destFilePath],
+					src             : [dirPath+path.sep+ 'doc.json'],
 					overwrite       : true,
 					replacements    : [{
-						from    : /event\:/g,
+						from    : /event:/g,
 						to      : ''
 					}, {
-						from        : /\{\@link .*\}/g,
+						from        : /{@link (.*?)}/g,
 						to          : function(match) {
-							var link    = match.replace('@link', '').replace(/[\{\}]/g, '').trim();
+
+							var link    = match.replace('@link', '').replace(/[{}]/g, '').trim();
 							var parts   = link.indexOf('|') != -1 ? link.split('|') : link;
 
 							if (!parts || parts.length < 1)
@@ -115,7 +118,7 @@ module.exports  = function(grunt) {
 							var name    = parts.length > 1 ? parts[1] : parts[0];
 
 							if (parts[0].charAt(0) == '#') {
-								link    = '#' +config.name+ '_module_' +parts[0].substring(1).replace(/[\/~]/g, '_');
+								link    = '#' +projName+ '_' +parts[0].substring(1).replace(/[\/~.]/g, '_');
 
 								if (name.charAt(0) == '#')
 									name    = name.substring(1);
@@ -123,10 +126,13 @@ module.exports  = function(grunt) {
 
 							return '<a href=\'' +link+ '\' class=\'reference\'>' +name+ '</a>';
 						}
+					}, {
+						from    : /module:/g,
+						to      : projName+ '_'
 					}]
 				});
 
-				grunt.log.ok("Documentation generated @ " +dirPath+ '/doc.json');
+				grunt.log.ok("Documentation generated @ " +chalk.green(dirPath)+ chalk.green(path.sep) + chalk.green('doc.json'));
 				done(true);
 			} else {
 				grunt.log.warn("jsdoc terminated with a non-zero exit code ", code);
