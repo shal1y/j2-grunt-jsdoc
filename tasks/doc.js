@@ -96,7 +96,32 @@ module.exports  = function(grunt) {
 				if (!grunt.file.exists(dirPath))
 					grunt.file.mkdir(dirPath);
 
-				grunt.file.write(dirPath+path.sep+ 'doc.json', Buffer.concat(buffer, bufferLength));
+				var json    = JSON.parse(Buffer.concat(buffer, bufferLength).toString());
+
+				if (json) {
+					json.sort(function(a, b) {
+						var ma  = a.meta;
+						var mb  = b.meta;
+
+						if (!ma && mb)
+							return 1;
+						else if (ma && !mb)
+							return -1;
+						else if (!ma && !mb)
+							return 0;
+
+						if (ma.filename == mb.filename)
+							return ma.lineno - mb.lineno
+						else {
+							if (ma.filename > mb.filename)
+								return 1
+							else
+								return -1;
+						}
+					});
+				}
+
+				grunt.file.write(dirPath+path.sep+ 'doc.json', JSON.stringify(json, null, 4));
 
 				gtr.replace({
 					src             : [dirPath+path.sep+ 'doc.json'],
