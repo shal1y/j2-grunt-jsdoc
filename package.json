@@ -1,6 +1,6 @@
 {
   "name": "j2-grunt-jsdoc",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Grunt task to generate documentation for J2Inn projects",
   "main": "Gruntfile.js",
   "scripts": {
