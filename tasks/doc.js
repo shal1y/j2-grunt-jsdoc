@@ -99,6 +99,7 @@ module.exports  = function(grunt) {
 				var json    = JSON.parse(Buffer.concat(buffer, bufferLength).toString());
 
 				if (json) {
+
 					json.sort(function(a, b) {
 						var ma  = a.meta;
 						var mb  = b.meta;
@@ -119,6 +120,11 @@ module.exports  = function(grunt) {
 								return -1;
 						}
 					});
+
+					//  remove all undocumented stuff
+					json    = json.filter(function(item) {
+					    return item && !item.undocumented;
+                    });
 				}
 
 				grunt.file.write(dirPath+path.sep+ 'doc.json', JSON.stringify(json, null, 4));
