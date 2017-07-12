@@ -148,8 +148,8 @@ module.exports  = function(grunt) {
 							var link    = parts[0];
 							var name    = parts.length > 1 ? parts[1] : parts[0];
 
-							if (parts[0].charAt(0) == '#') {
-								link    = '#doc?id=' +projName+ '_' +parts[0].substring(1).replace(/[\/~.]/g, '_');
+							if (parts[0].indexOf('module:') == 0) {
+								link    = '#doc?id=' +projName+ '_' +parts[0].replace('module:', '').replace(/[\/~.]/g, '_');
 
 								if (name.charAt(0) == '#')
 									name    = name.substring(1);
