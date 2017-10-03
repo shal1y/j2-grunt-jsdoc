@@ -56,6 +56,10 @@ module.exports  = function(grunt) {
 		// convert jsdoc path to relative path
 		jsdoc = path.relative('.', jsdoc);
 
+		//  check for windows
+        if (/^win/.test(process.platform))
+            jsdoc   += '.cmd';
+
 		grunt.log.debug('Using jsdoc from : ' + jsdoc);
 
 		//check the existence of the options file
